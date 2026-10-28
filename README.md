@@ -9,7 +9,7 @@ A minimalist Pomodoro timer for macOS, built as a glass widget docked to the edg
 - **Session dots** showing progress through the four-session cycle.
 - **Widget docked to a screen edge** (left, right, top or bottom) that you can drag along that edge so it does not cover content in other apps. The position is remembered separately for each edge.
 - **Compact mode:** while the timer is running, the widget smoothly collapses to just the ring with the time and dots after 3 seconds without the cursor, and expands again when you hover over it.
-- **Adjustable size** of the widget (reduced by 25–50%).
+- **Adjustable size** of the widget (reduced by 0–50%).
 - **Glass look:** blurred background, red tint for work sessions and teal for breaks, a progress ring with a glow.
 - **Menu bar icon** showing the time remaining in the current phase.
 - **System notifications** at the end of a session and a break.
@@ -53,7 +53,7 @@ If you want to recreate the project from the sources instead:
 | Session | Length of a work session, 1–180 min |
 | Break | Length of a regular break, 1–60 min |
 | Long break | Length of the long break after 4 sessions, 5–60 min (0 = off) |
-| Size reduction | Shrinks the widget by 25–50% |
+| Size reduction | Shrinks the widget by 0–50% |
 | Screen edge | The screen edge the widget is docked to |
 | Show time in menu bar | Time next to the icon in the menu bar |
 | Compact mode | Automatically collapses the widget while the timer is running |
