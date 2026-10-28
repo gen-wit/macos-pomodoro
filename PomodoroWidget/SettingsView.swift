@@ -16,6 +16,14 @@ struct SettingsView: View {
     private let stats = StatsStore.shared
     @State private var confirmClear = false
 
+    /// Wersja i numer kompilacji z Info.plist (np. „Version 1.0 (1)").
+    private var versionText: String {
+        let info = Bundle.main.infoDictionary
+        let version = info?["CFBundleShortVersionString"] as? String ?? "?"
+        let build = info?["CFBundleVersion"] as? String ?? "?"
+        return "Version \(version) (\(build))"
+    }
+
     var body: some View {
         VStack(alignment: .leading, spacing: 14) {
             Text("Pomodoro")
@@ -108,6 +116,11 @@ struct SettingsView: View {
                 NSApplication.shared.terminate(nil)
             }
             .keyboardShortcut("q")
+
+            Text(versionText)
+                .font(.caption2)
+                .foregroundStyle(.secondary)
+                .frame(maxWidth: .infinity, alignment: .center)
         }
         .padding(16)
         .frame(width: 260)
