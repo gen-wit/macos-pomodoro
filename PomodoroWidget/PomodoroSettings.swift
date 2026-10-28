@@ -22,7 +22,7 @@ enum PomodoroSettings {
     // Zmniejszenie rozmiaru widżetu w % (25 = widżet ma 75% oryginalnego rozmiaru).
     static let sizeReductionKey = "sizeReduction"
     static let defaultSizeReduction = 25.0
-    static let sizeReductionRange: ClosedRange<Double> = 25...50
+    static let sizeReductionRange: ClosedRange<Double> = 0...50
 
     /// Współczynnik skali widżetu (0.5 ... 0.75).
     static var scale: CGFloat {
