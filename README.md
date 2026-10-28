@@ -66,6 +66,23 @@ If you want to recreate the project from the sources instead:
 - A reset before the end of a session records it as interrupted. Interrupted sessions shorter than 10 seconds are ignored.
 - Data is stored locally in `~/Library/Application Support/PomodoroWidget/sessions.json`. The *Reset statistics* button in the menu clears the history.
 
+## Troubleshooting
+
+### Generic icon in notifications
+
+If notifications show a blank, generic icon instead of the app icon, macOS has cached the icon from before it existed (or from another copy of the app with the same bundle identifier). The icon set itself is fine. Try, in order:
+
+1. Quit the app and keep only one copy of it (remove old copies from *Applications* or DerivedData). In Xcode run *Product → Clean Build Folder* (⇧⌘K).
+2. Refresh the system caches:
+   ```
+   killall NotificationCenter usernoted Dock Finder
+   ```
+3. If that is not enough, clear the icon cache and restart the Mac (macOS rebuilds it automatically):
+   ```
+   sudo rm -rf /Library/Caches/com.apple.iconservices.store
+   ```
+4. As a last resort, set your own *Bundle Identifier* in *target → Signing & Capabilities*. Note that this resets notification permission, settings and statistics, because the sandbox container depends on the identifier.
+
 ## Repository structure
 
 ```
