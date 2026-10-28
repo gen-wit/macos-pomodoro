@@ -1,98 +1,102 @@
 # macOS Pomodoro
 
-Minimalistyczny timer Pomodoro dla macOS w formie szklanego widżetu przypiętego do krawędzi ekranu. Aplikacja jest napisana natywnie w Swift i SwiftUI (z AppKit tam, gdzie SwiftUI nie wystarcza), nie ma ikony w Docku i żyje w pasku menu.
+A minimalist Pomodoro timer for macOS, built as a glass widget docked to the edge of your screen. The app is written natively in Swift and SwiftUI (with AppKit where SwiftUI is not enough), has no Dock icon and lives in the menu bar.
 
-## Funkcje
+## Features
 
-- **Timer sesji i przerw** z pauzą i resetem. Długość sesji (1–180 min) i przerwy (1–60 min) ustawiasz w menu.
-- **Długa przerwa** po czterech sesjach (domyślnie 15 min, 0 wyłącza ją).
-- **Kropki sesji** pokazujące postęp w czteroelementowym cyklu.
-- **Widżet przypięty do krawędzi ekranu** (lewej, prawej, górnej lub dolnej), który można przeciągać wzdłuż tej krawędzi, żeby nie zasłaniał treści innych aplikacji. Pozycja jest zapamiętywana osobno dla każdej krawędzi.
-- **Tryb kompaktowy:** w trakcie odliczania widżet po 3 sekundach bez kursora płynnie zwija się do samego pierścienia z czasem i kropkami, a po najechaniu rozwija się z powrotem.
-- **Regulowany rozmiar** widżetu (zmniejszenie o 25–50%).
-- **Wygląd „szkła":** rozmycie tła, czerwony odcień sesji pracy i turkusowy przerwy, pierścień postępu z poświatą.
-- **Ikona w pasku menu** z czasem pozostałym do końca bieżącej fazy.
-- **Powiadomienia systemowe** na koniec sesji i przerwy.
-- **Statystyki:** liczba sesji, odsetek sesji ukończonych bez przerwania i średni czas sesji.
-- **Uruchamianie przy logowaniu** do macOS.
+- **Session and break timer** with pause and reset. You set the session length (1–180 min) and break length (1–60 min) in the menu.
+- **Long break** after four sessions (15 min by default, 0 turns it off).
+- **Session dots** showing progress through the four-session cycle.
+- **Widget docked to a screen edge** (left, right, top or bottom) that you can drag along that edge so it does not cover content in other apps. The position is remembered separately for each edge.
+- **Compact mode:** while the timer is running, the widget smoothly collapses to just the ring with the time and dots after 3 seconds without the cursor, and expands again when you hover over it.
+- **Adjustable size** of the widget (reduced by 25–50%).
+- **Glass look:** blurred background, red tint for work sessions and teal for breaks, a progress ring with a glow.
+- **Menu bar icon** showing the time remaining in the current phase.
+- **System notifications** at the end of a session and a break.
+- **Statistics:** number of sessions, percentage of sessions completed without interruption, and average session length.
+- **Launch at login** to macOS.
 
-## Wymagania
+## Requirements
 
-- macOS 14 (Sonoma) lub nowszy
-- Xcode 15 lub nowszy
+- macOS 14 (Sonoma) or later for the code (the Xcode project may be set to a higher deployment target, which you can lower in the target settings)
+- Xcode 15 or later
 
-## Uruchomienie z kodu źródłowego
+## Running from source
 
-Repozytorium zawiera pliki źródłowe w folderze `PomodoroWidget/` oraz ikonę w `Design/`. Jeśli nie ma w nim jeszcze projektu Xcode (`PomodoroWidget.xcodeproj`), utwórz go tak:
+1. Open `Pomodoro-app.xcodeproj` in Xcode.
+2. Run the app (⌘R).
 
-1. W Xcode: *File → New → Project → macOS → App*. Nazwa: `PomodoroWidget`, interfejs: SwiftUI, język: Swift.
-2. Usuń wygenerowane pliki `PomodoroWidgetApp.swift` i `ContentView.swift`.
-3. Przeciągnij wszystkie pliki z folderu `PomodoroWidget/` do projektu (zaznacz *Copy items if needed* i właściwy cel).
-4. W `Assets.xcassets` zastąp `AppIcon` folderem `Design/AppIcon.appiconset`.
-5. W ustawieniach celu ustaw *Minimum Deployments* na macOS 14.0.
-6. Uruchom aplikację (⌘R).
+After launch no regular window appears. You will see the widget at the edge of the screen and a clock icon in the menu bar. You can quit the app from the settings popover (*Quit Pomodoro*) or with the Stop button in Xcode.
 
-Po starcie nie pojawi się zwykłe okno. Zobaczysz widżet przy krawędzi ekranu i ikonę zegara w pasku menu. Aplikację zamkniesz z okienka ustawień (*Quit Pomodoro*) albo przyciskiem Stop w Xcode.
+If you want to recreate the project from the sources instead:
 
-### Eksport do `.app`
+1. In Xcode: *File → New → Project → macOS → App*. Name: `PomodoroWidget`, interface: SwiftUI, language: Swift.
+2. Delete the generated `PomodoroWidgetApp.swift` and `ContentView.swift` files.
+3. Drag all files from the `PomodoroWidget/` folder into the project (tick *Copy items if needed* and the right target).
+4. In `Assets.xcassets`, replace `AppIcon` with the `Design/AppIcon.appiconset` folder.
+5. In the target settings, set *Minimum Deployments* to macOS 14.0 or higher.
 
-*Product → Archive → Distribute App → Copy App*, a następnie przeciągnij aplikację do folderu *Programy*. Aplikacja nie jest podpisana ani notaryzowana, więc przy pierwszym uruchomieniu macOS może ją zablokować. Otwórz ją wtedy prawym przyciskiem myszy (*Otwórz*) albo zezwól w *Ustawieniach systemowych → Prywatność i ochrona*. Uruchamianie przy logowaniu działa najlepiej dla aplikacji z folderu *Programy*.
+### Exporting to `.app`
 
-## Obsługa
+*Product → Archive → Distribute App → Copy App*, then drag the app to the *Applications* folder. The app is not signed or notarized, so macOS may block it the first time you launch it. Open it with a right-click (*Open*) or allow it in *System Settings → Privacy & Security*. Launch at login works best for the app located in the *Applications* folder.
 
-- **START / PAUSE / RESUME** rozpoczyna, wstrzymuje i wznawia odliczanie, **RESET** wraca do gotowości.
-- **Przeciągnij** widżet za tło, pierścień lub napisy, żeby przesunąć go wzdłuż krawędzi.
-- **Ikona zegara w pasku menu** otwiera okienko z ustawieniami i statystykami.
+## Usage
 
-### Ustawienia
+- **START / PAUSE / RESUME** starts, pauses and resumes the countdown, **RESET** returns to the ready state.
+- **Drag** the widget by its background, ring or labels to move it along the edge.
+- The **clock icon in the menu bar** opens a popover with settings and statistics.
 
-| Ustawienie | Opis |
+### Settings
+
+| Setting | Description |
 | --- | --- |
-| Session | Długość sesji pracy, 1–180 min |
-| Break | Długość zwykłej przerwy, 1–60 min |
-| Long break | Długość długiej przerwy po 4 sesjach, 5–60 min (0 = wyłączona) |
-| Size reduction | Zmniejszenie widżetu o 25–50% |
-| Screen edge | Krawędź ekranu, do której przypięty jest widżet |
-| Show time in menu bar | Czas w pasku menu obok ikony |
-| Compact mode | Automatyczne zwijanie widżetu w trakcie odliczania |
-| Center widget on edge | Przywraca widżet na środek bieżącej krawędzi |
-| Launch at login | Uruchamianie aplikacji przy logowaniu |
+| Session | Length of a work session, 1–180 min |
+| Break | Length of a regular break, 1–60 min |
+| Long break | Length of the long break after 4 sessions, 5–60 min (0 = off) |
+| Size reduction | Shrinks the widget by 25–50% |
+| Screen edge | The screen edge the widget is docked to |
+| Show time in menu bar | Time next to the icon in the menu bar |
+| Compact mode | Automatically collapses the widget while the timer is running |
+| Center widget on edge | Moves the widget back to the middle of the current edge |
+| Launch at login | Starts the app when you log in |
 
-### Statystyki
+### Statistics
 
-- Pauza w trakcie sesji pracy liczy się jako przerwanie sesji.
-- Reset przed końcem sesji zapisuje ją jako przerwaną. Przerwane sesje krótsze niż 10 sekund są pomijane.
-- Dane są zapisywane lokalnie w pliku `~/Library/Application Support/PomodoroWidget/sessions.json`. Przycisk *Reset statistics* w menu czyści historię.
+- A pause during a work session counts as an interruption of that session.
+- A reset before the end of a session records it as interrupted. Interrupted sessions shorter than 10 seconds are ignored.
+- Data is stored locally in `~/Library/Application Support/PomodoroWidget/sessions.json`. The *Reset statistics* button in the menu clears the history.
 
-## Struktura repozytorium
+## Repository structure
 
 ```
 macos-pomodoro/
 ├── README.md
 ├── .gitignore
+├── Pomodoro-app.xcodeproj/        # Xcode project
 ├── Design/
-│   ├── AppIcon.appiconset/        # komplet ikon aplikacji do Assets.xcassets
-│   └── icon_1024_master.png       # ikona w rozmiarze 1024 px
+│   ├── AppIcon.appiconset/        # complete app icon set for Assets.xcassets
+│   └── icon_1024_master.png       # icon at 1024 px
 └── PomodoroWidget/
-    ├── PomodoroWidgetApp.swift        # punkt wejścia, ikona i czas w pasku menu
-    ├── PomodoroTimer.swift            # logika timera, faz, cyklu sesji i długiej przerwy
-    ├── PomodoroSettings.swift         # klucze i wartości ustawień (UserDefaults)
-    ├── WidgetView.swift               # widżet: szkło, pierścień, przyciski, tryb kompaktowy
-    ├── WidgetPanelController.swift    # bezramkowe okno przypięte do krawędzi, przeciąganie
-    ├── ScreenEdge.swift               # krawędzie ekranu i kształt widżetu
-    ├── SettingsView.swift             # okienko ustawień i statystyk w pasku menu
-    ├── StatsStore.swift               # zapis i obliczanie statystyk (JSON)
-    ├── NotificationService.swift      # powiadomienia systemowe
-    ├── MenuBarImage.swift             # ikona i czas w pasku menu o stałej szerokości
-    └── LaunchAtLogin.swift            # uruchamianie przy logowaniu (SMAppService)
+    ├── Assets.xcassets/               # asset catalog with the app icon
+    ├── PomodoroWidgetApp.swift        # entry point, icon and time in the menu bar
+    ├── PomodoroTimer.swift            # timer logic, phases, session cycle and long break
+    ├── PomodoroSettings.swift         # setting keys and values (UserDefaults)
+    ├── WidgetView.swift               # widget: glass, ring, buttons, compact mode
+    ├── WidgetPanelController.swift    # borderless window docked to an edge, dragging
+    ├── ScreenEdge.swift               # screen edges and widget shape
+    ├── SettingsView.swift             # settings and statistics popover in the menu bar
+    ├── StatsStore.swift               # saving and computing statistics (JSON)
+    ├── NotificationService.swift      # system notifications
+    ├── MenuBarImage.swift             # fixed-width icon and time in the menu bar
+    └── LaunchAtLogin.swift            # launch at login (SMAppService)
 ```
 
-## Uwagi techniczne
+## Technical notes
 
-- Widżet to bezramkowy `NSPanel` (zawsze na wierzchu, bez przejmowania fokusu), w którym osadzono widok SwiftUI. Dzięki temu można go przykleić do dowolnej krawędzi widocznego obszaru ekranu.
-- Szkło to `NSVisualEffectView` z rozmyciem tła, na które nakładany jest kolor fazy.
-- Odliczanie opiera się na dacie zakończenia, więc jest odporne na opóźnienia zegara aplikacji.
+- The widget is a borderless `NSPanel` (always on top, does not take focus) with a SwiftUI view embedded in it. This lets it dock to any edge of the visible screen area.
+- The glass is an `NSVisualEffectView` with background blur, tinted with the color of the current phase.
+- The countdown is based on an end date, so it is resilient to delays of the app's timer.
 
-## Licencja
+## License
 
-Nie określono.
+Not specified.
