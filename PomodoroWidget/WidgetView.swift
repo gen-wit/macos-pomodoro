@@ -76,6 +76,10 @@ struct WidgetView: View {
     var onTransition: () -> Void = {}
 
     @AppStorage(PomodoroSettings.compactModeKey) private var compactMode = true
+    @AppStorage(PomodoroSettings.startCompactKey) private var startCompact = true
+    /// Po uruchomieniu aplikacji widżet startuje zwinięty (także w stanie gotowości),
+    /// dopóki użytkownik nie najedzie na niego kursorem.
+    @State private var startupCompact = UserDefaults.standard.object(forKey: PomodoroSettings.startCompactKey) as? Bool ?? true
 
     /// Zmierzony rozmiar rozwiniętego widżetu.
     @State private var fullSize = CGSize(width: 280, height: 332)
@@ -171,6 +175,14 @@ struct WidgetView: View {
     private func updateCompact() {
         compactTask?.cancel()
         compactTask = nil
+
+        if isHovering { startupCompact = false }
+
+        // Zwinięty start: od razu, bez opóźnienia, tylko gdy odliczanie jeszcze nie ruszyło.
+        if startCompact && startupCompact && compactMode && timer.state != .running && !isHovering {
+            setCompact(true)
+            return
+        }
 
         let canCollapse = compactMode && timer.state == .running && !isHovering
         guard canCollapse else {

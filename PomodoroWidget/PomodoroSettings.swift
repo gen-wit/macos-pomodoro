@@ -18,6 +18,7 @@ enum PomodoroSettings {
 
     static let showMenuBarTimeKey = "showMenuBarTime"
     static let compactModeKey = "compactMode"
+    static let startCompactKey = "startCompact"
 
     // Zmniejszenie rozmiaru widżetu w % (25 = widżet ma 75% oryginalnego rozmiaru).
     static let sizeReductionKey = "sizeReduction"

@@ -10,6 +10,7 @@ struct SettingsView: View {
     @AppStorage(PomodoroSettings.sizeReductionKey) private var sizeReduction = PomodoroSettings.defaultSizeReduction
     @AppStorage(PomodoroSettings.showMenuBarTimeKey) private var showMenuBarTime = true
     @AppStorage(PomodoroSettings.compactModeKey) private var compactMode = true
+    @AppStorage(PomodoroSettings.startCompactKey) private var startCompact = true
     @State private var launchAtLogin = LaunchAtLogin.isEnabled
     @State private var launchError: String?
 
@@ -61,6 +62,8 @@ struct SettingsView: View {
 
             Toggle("Show time in menu bar", isOn: $showMenuBarTime)
             Toggle("Compact mode (auto-collapse)", isOn: $compactMode)
+            Toggle("Start collapsed after launch", isOn: $startCompact)
+                .disabled(!compactMode)
 
             VStack(alignment: .leading, spacing: 6) {
                 Text("Drag the widget to move it along the edge.")
