@@ -170,8 +170,8 @@ struct WidgetView: View {
 
     // MARK: - Tryb kompaktowy
 
-    /// Zwija widżet po `collapseDelay` sekundach bez kursora, ale tylko gdy odliczanie trwa.
-    /// W stanie gotowości lub pauzy widżet zostaje rozwinięty, żeby przyciski były pod ręką.
+    /// Zwija widżet po `collapseDelay` sekundach bez kursora, gdy odliczanie trwa albo timer jest
+    /// gotowy do startu. W pauzie widżet zostaje rozwinięty, jako sugestia, by wznowić odliczanie.
     private func updateCompact() {
         compactTask?.cancel()
         compactTask = nil
@@ -179,12 +179,12 @@ struct WidgetView: View {
         if isHovering { startupCompact = false }
 
         // Zwinięty start: od razu, bez opóźnienia, tylko gdy odliczanie jeszcze nie ruszyło.
-        if startCompact && startupCompact && compactMode && timer.state != .running && !isHovering {
+        if startCompact && startupCompact && compactMode && timer.state == .idle && !isHovering {
             setCompact(true)
             return
         }
 
-        let canCollapse = compactMode && timer.state == .running && !isHovering
+        let canCollapse = compactMode && (timer.state == .running || timer.state == .idle) && !isHovering
         guard canCollapse else {
             setCompact(false)
             return
