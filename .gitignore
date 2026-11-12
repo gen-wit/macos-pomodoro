@@ -18,3 +18,7 @@ xcuserdata/
 *.ipa
 *.dSYM
 *.dSYM.zip
+
+# Zbudowane aplikacje (nie commitujemy)
+*.app
+Pomodoro.app.zip
