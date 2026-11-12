@@ -207,7 +207,8 @@ final class PomodoroTimer {
                 title: "Session complete",
                 body: isLongBreak
                     ? "Cycle complete! Time for a \(longBreakMinutes) min long break."
-                    : "Time for a \(breakMinutes) min break."
+                    : "Time for a \(breakMinutes) min break.",
+                sound: .sessionComplete
             )
             // Po sesji pracy przerwa startuje automatycznie.
             phase = .rest
@@ -217,7 +218,8 @@ final class PomodoroTimer {
         case .rest:
             NotificationService.send(
                 title: "Break is over",
-                body: "Ready for the next \(focusMinutes) min session?"
+                body: "Ready for the next \(focusMinutes) min session?",
+                sound: .breakOver
             )
             // Po przerwie wracamy do gotowości na kolejną sesję.
             if cycleCount >= Self.cycleLength { cycleCount = 0 }

@@ -12,7 +12,7 @@ A minimalist Pomodoro timer for macOS, built as a glass widget docked to the edg
 - **Adjustable size** of the widget (reduced by 0–50%).
 - **Glass look:** blurred background, red tint for work sessions and teal for breaks, a progress ring with a glow.
 - **Menu bar icon** showing the time remaining in the current phase.
-- **System notifications** at the end of a session and a break.
+- **System notifications** at the end of a session and a break, with the app's own bundled sounds (`PomodoroWidget/Sounds/`), so they do not depend on macOS system sounds.
 - **Statistics:** number of sessions, percentage of sessions completed without interruption, and average session length.
 - **Launch at login** to macOS.
 
@@ -104,7 +104,8 @@ macos-pomodoro/
     ├── ScreenEdge.swift               # screen edges and widget shape
     ├── SettingsView.swift             # settings and statistics popover in the menu bar
     ├── StatsStore.swift               # saving and computing statistics (JSON)
-    ├── NotificationService.swift      # system notifications
+    ├── Sounds/                        # bundled end-of-session and end-of-break sounds (WAV)
+    ├── NotificationService.swift      # system notifications and sound playback
     ├── MenuBarImage.swift             # fixed-width icon and time in the menu bar
     └── LaunchAtLogin.swift            # launch at login (SMAppService)
 ```
