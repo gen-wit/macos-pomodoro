@@ -50,8 +50,11 @@ jobs:
         run: |
           APP=$(find build/Build/Products/Release -maxdepth 1 -name '*.app' | head -n 1)
           echo "Built: $APP"
-          codesign --verify --deep --strict "$APP" || true
-          ditto -c -k --sequesterRsrc --keepParent "$APP" "Pomodoro-${TAG}-macOS.zip"
+          # Zmiana nazwy samego folderu .app (identyfikator i podpis aplikacji zostają bez zmian).
+          mkdir -p dist
+          cp -R "$APP" dist/Pomodoro.app
+          codesign --verify --deep --strict dist/Pomodoro.app || true
+          ditto -c -k --sequesterRsrc --keepParent dist/Pomodoro.app "Pomodoro-${TAG}-macOS.zip"
           ls -lh Pomodoro-*.zip
 
       - name: Upload to release
