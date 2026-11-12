@@ -12,7 +12,10 @@ enum SoundPlayer {
 
     @MainActor
     static func play(_ sound: AppSound) {
-        guard let url = Bundle.main.url(forResource: sound.rawValue, withExtension: "wav") else { return }
+        // Najpierw MP3 (własne dźwięki), a gdy go nie ma, wbudowany WAV.
+        guard let url = ["mp3", "wav"].lazy
+            .compactMap({ Bundle.main.url(forResource: sound.rawValue, withExtension: $0) })
+            .first else { return }
         player = try? AVAudioPlayer(contentsOf: url)
         player?.play()
     }
