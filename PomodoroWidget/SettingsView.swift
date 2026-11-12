@@ -13,6 +13,7 @@ struct SettingsView: View {
     @AppStorage(PomodoroSettings.startCompactKey) private var startCompact = true
     @State private var launchAtLogin = LaunchAtLogin.isEnabled
     @State private var launchError: String?
+    @State private var soundStatus: String?
 
     private let stats = StatsStore.shared
     @State private var confirmClear = false
@@ -72,6 +73,19 @@ struct SettingsView: View {
                     .fixedSize(horizontal: false, vertical: true)
                 Button("Center widget on edge") {
                     UserDefaults.standard.removeObject(forKey: ScreenEdge.positionKey(edgeRaw))
+                }
+            }
+
+            VStack(alignment: .leading, spacing: 6) {
+                HStack {
+                    Button("Test session sound") { soundStatus = SoundPlayer.play(.sessionComplete) }
+                    Button("Test break sound") { soundStatus = SoundPlayer.play(.breakOver) }
+                }
+                if let soundStatus {
+                    Text(soundStatus)
+                        .font(.caption)
+                        .foregroundStyle(.secondary)
+                        .fixedSize(horizontal: false, vertical: true)
                 }
             }
 
