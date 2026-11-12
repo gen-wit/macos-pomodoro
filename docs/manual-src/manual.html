@@ -1,0 +1,598 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>Pomodoro Timer — User Manual</title>
+<style>
+@font-face { font-family: "Figtree"; font-weight: 400; src: url("fonts/figtree-latin-400-normal.woff2") format("woff2"); }
+@font-face { font-family: "Figtree"; font-weight: 600; src: url("fonts/figtree-latin-600-normal.woff2") format("woff2"); }
+@font-face { font-family: "Figtree"; font-weight: 700; src: url("fonts/figtree-latin-700-normal.woff2") format("woff2"); }
+
+:root {
+  --bg: #f0ede4;
+  --card: #faf7f0;
+  --ink: #1a1a18;
+  --muted: #6b6a63;
+  --line: #d9d4c7;
+  --accent: #ff5a1f;
+  --green: #2e8b57;
+  --amber: #f0a030;
+  --font: "Avenir Next", "Avenir", "Figtree", -apple-system, "Helvetica Neue", sans-serif;
+  --mono: "SF Mono", Menlo, "DejaVu Sans Mono", monospace;
+}
+
+@page {
+  size: A4;
+  margin: 20mm 20mm 24mm 20mm;
+  background: #f0ede4;
+  @bottom-left  { content: "POMODORO \00B7  USER MANUAL"; font: 400 7pt "Avenir Next", "Avenir", "Figtree", sans-serif; letter-spacing: .22em; color: #6b6a63; vertical-align: top; padding-top: 6mm; }
+  @bottom-right { content: counter(page); font: 700 8.5pt "Avenir Next", "Avenir", "Figtree", sans-serif; color: #1a1a18; vertical-align: top; padding-top: 6mm; }
+}
+@page :first {
+  margin: 0;
+  @bottom-left  { content: none; }
+  @bottom-right { content: none; }
+}
+
+* { box-sizing: border-box; }
+html { background: var(--bg); -webkit-print-color-adjust: exact; print-color-adjust: exact; }
+body { margin: 0; background: var(--bg); color: var(--ink); font: 400 9.8pt/1.55 var(--font); }
+
+section.page { break-before: page; }
+h1, h2 { break-after: avoid; }
+table, figure, .note, .card, .cards, .trio, ol.steps li, pre { break-inside: avoid; }
+
+/* ---------- type ---------- */
+h1 { font-size: 25pt; font-weight: 700; letter-spacing: -.025em; line-height: 1.12; margin: 2mm 0 4mm; }
+h2 { font-size: 13pt; font-weight: 700; letter-spacing: -.01em; margin: 8mm 0 2.5mm; }
+h4 { margin: 0 0 2mm; }
+p { margin: 0 0 3mm; }
+p.lead { font-size: 11.5pt; color: var(--muted); max-width: 150mm; margin-bottom: 5mm; }
+b { font-weight: 700; }
+.eyebrow { font-size: 7.5pt; font-weight: 700; text-transform: uppercase; letter-spacing: .26em; color: var(--accent); display: flex; align-items: center; gap: 3mm; }
+.tag { font-size: 6.5pt; font-weight: 700; letter-spacing: .2em; padding: .7mm 2mm; border-radius: 10mm; text-transform: uppercase; color: #fff; background: var(--ink); }
+.tag.green { background: var(--green); }
+.tag.amber { background: var(--amber); color: var(--ink); }
+.tag.ink   { background: var(--ink); }
+small { font-size: 8pt; color: var(--muted); }
+
+code { font: 400 8.8pt var(--mono); background: #e6e2d6; padding: .2mm 1.2mm; border-radius: 1mm; }
+kbd { font: 700 8pt var(--mono); background: var(--card); border: .3mm solid var(--ink); border-bottom-width: .6mm; border-radius: 1.2mm; padding: 0 1.5mm; margin: 0 .5mm; }
+
+ul { list-style: none; padding: 0; margin: 0 0 3mm; }
+ul li { position: relative; padding-left: 5mm; margin-bottom: 1.4mm; }
+ul li::before { content: ""; position: absolute; left: 0; top: 2.1mm; width: 1.6mm; height: 1.6mm; background: var(--ink); }
+
+/* ---------- pixel word ---------- */
+.px { display: inline-block; line-height: 0; }
+.px svg { display: inline-block; vertical-align: baseline; }
+
+/* ---------- cover ---------- */
+section.cover { height: 297mm; width: 210mm; padding: 20mm; position: relative; display: flex; flex-direction: column; justify-content: center; }
+.cover .logo { position: absolute; top: 20mm; right: 20mm; width: 17mm; height: 17mm; border-radius: 4mm; box-shadow: 1.2mm 1.2mm 0 #c9c4b6; }
+.cover .eyebrow { margin-bottom: 8mm; }
+.cover h1 { font-size: 64pt; letter-spacing: -.035em; line-height: 1; margin: 0; }
+.cover .px-big { display: block; margin-top: 2mm; font-size: 64pt; line-height: 0; }
+.cover .sub { font-size: 11.5pt; max-width: 118mm; margin: 10mm 0 0; }
+.cover .rule { width: 24mm; height: .8mm; background: var(--ink); margin: 12mm 0 0; }
+.cover .foot { position: absolute; left: 20mm; bottom: 18mm; font-size: 7pt; letter-spacing: .22em; text-transform: uppercase; color: var(--muted); }
+
+/* ---------- contents ---------- */
+ol.toc { list-style: none; padding: 0; margin: 8mm 0 0; counter-reset: toc; }
+ol.toc li { counter-increment: toc; display: flex; align-items: baseline; gap: 5mm; padding: 3.6mm 0; border-bottom: .25mm solid var(--line); font-size: 12pt; font-weight: 600; }
+ol.toc li::before { content: counter(toc, decimal-leading-zero); font-size: 15pt; font-weight: 700; color: var(--accent); width: 11mm; position: static; background: none; height: auto; }
+ol.toc li { padding-left: 0; }
+ol.toc li small { margin-left: auto; text-align: right; font-weight: 400; font-size: 8.8pt; }
+
+/* ---------- steps ---------- */
+ol.steps { list-style: none; padding: 0; margin: 0 0 3mm; counter-reset: step; }
+ol.steps[start="5"] { counter-reset: step 4; }
+ol.steps li { counter-increment: step; display: grid; grid-template-columns: 12mm 1fr; padding: 3mm 0; border-bottom: .25mm solid var(--line); margin: 0; }
+ol.steps li::before { content: counter(step); position: static; background: none; width: auto; height: auto; font-size: 14pt; font-weight: 700; color: var(--accent); line-height: 1.2; }
+ol.steps li > div > :last-child { margin-bottom: 0; }
+ol.steps li > div { padding-right: 1.8mm; }
+
+/* ---------- tables ---------- */
+table { width: 100%; border-collapse: collapse; margin: 2mm 0 4mm; font-size: 9.3pt; }
+th { font-size: 6.8pt; font-weight: 700; text-transform: uppercase; letter-spacing: .22em; text-align: left; padding: 0 3mm 2mm 0; border-bottom: .7mm solid var(--ink); }
+td { padding: 2.2mm 3mm 2.2mm 0; border-bottom: .25mm solid var(--line); vertical-align: top; }
+td:first-child, th:first-child { white-space: nowrap; width: 42mm; font-weight: 600; }
+table.wrap td:first-child, table.wrap th:first-child { white-space: normal; width: 52mm; }
+tr:last-child td { border-bottom: .25mm solid var(--line); }
+
+/* ---------- code ---------- */
+pre { position: relative; background: var(--ink); color: #f4f1e8; font: 400 8.6pt/1.55 var(--mono); border-radius: 2mm; padding: 7mm 4mm 3.2mm; margin: 3mm 1.5mm 4mm 0; box-shadow: 1.5mm 1.5mm 0 #b9b4a6; white-space: pre-wrap; }
+pre::before { content: attr(data-label); position: absolute; left: 4mm; top: 2.4mm; font: 700 6.5pt var(--font); letter-spacing: .2em; color: var(--amber); }
+
+/* ---------- callouts ---------- */
+.note { background: var(--card); border: .5mm solid var(--accent); border-radius: 3mm; padding: 3.4mm 4.2mm; margin: 4mm 1.8mm 4mm 0; box-shadow: 1.8mm 1.8mm 0 var(--accent); }
+.note.ink { border-color: var(--ink); box-shadow: 1.8mm 1.8mm 0 var(--ink); }
+.note.amber { border-color: var(--amber); box-shadow: 1.8mm 1.8mm 0 var(--amber); }
+.note p:last-child { margin-bottom: 0; }
+
+/* ---------- cards / trio ---------- */
+.cards { display: grid; grid-template-columns: repeat(3, 1fr); gap: 4mm; margin: 5mm 0; }
+.cards.two { grid-template-columns: repeat(2, 1fr); }
+.card { background: var(--card); border: .3mm solid var(--line); border-radius: 3mm; padding: 4mm; }
+.card svg { width: 11mm; height: 11mm; display: block; margin-bottom: 3mm; }
+.card b { display: block; font-size: 10.5pt; margin-bottom: 1mm; }
+.card span { display: block; font-size: 8.8pt; color: var(--muted); line-height: 1.45; }
+.card span b { display: inline; font-size: inherit; margin: 0; color: var(--ink); }
+.trio { display: grid; grid-template-columns: repeat(3, 1fr); gap: 6mm; margin: 5mm 0; }
+.trio > div { border-top: .8mm solid var(--ink); padding-top: 2.4mm; }
+.trio h4 { font-size: 7.5pt; font-weight: 700; text-transform: uppercase; letter-spacing: .22em; color: var(--accent); }
+.trio ul { font-size: 9pt; }
+
+/* ---------- figures ---------- */
+figure { margin: 4mm 1.6mm 5mm 0; }
+.diagram { background: var(--card); border: .4mm solid var(--ink); border-radius: 2.5mm; box-shadow: 1.6mm 1.6mm 0 #c9c4b6; padding: 4mm; }
+.diagram svg { width: 100%; height: auto; display: block; font-family: var(--font); }
+figcaption { font-size: 8pt; color: var(--muted); margin-top: 3mm; }
+
+/* ---------- cheat sheet ---------- */
+.cols { display: grid; grid-template-columns: 1fr 1fr; gap: 9mm; }
+.cols h2 { margin-top: 5mm; }
+.sheet table { font-size: 8.8pt; }
+.sheet td:first-child, .sheet th:first-child { width: auto; white-space: normal; padding-right: 4mm; }
+.closing { margin-top: 6mm; font-size: 9pt; color: var(--muted); }
+</style>
+</head>
+<body>
+
+<!-- ============ COVER ============ -->
+<section class="cover">
+  <img class="logo" src="img/icon.png" alt="">
+  <div class="eyebrow">A USER MANUAL · VERSION 1.0</div>
+  <h1>Pomodoro</h1>
+  <span class="px px-big" data-h="1.0">TIMER</span>
+  <p class="sub">A glass timer that sits at the edge of your screen and keeps you working in focused rounds. This manual shows you how to install it, use it and make it yours.</p>
+  <div class="rule"></div>
+  <div class="foot">Pomodoro Timer · macOS · 2026</div>
+</section>
+
+<!-- ============ CONTENTS ============ -->
+<section class="page">
+  <div class="eyebrow">Contents</div>
+  <h1>What is <span class="px">INSIDE</span></h1>
+  <ol class="toc">
+    <li>Overview <small>What the app does, in one page</small></li>
+    <li>Installing <small>Download, move, first launch</small></li>
+    <li>The widget <small>Ring, buttons and dots</small></li>
+    <li>Work and rest <small>How one cycle runs</small></li>
+    <li>Compact mode <small>When the widget gets out of the way</small></li>
+    <li>Settings <small>Every option in the menu</small></li>
+    <li>Statistics <small>What is counted, and how</small></li>
+    <li>Troubleshooting <small>Problems and fixes</small></li>
+    <li>Cheat sheet <small>One page to print</small></li>
+  </ol>
+</section>
+
+<!-- ============ 01 OVERVIEW ============ -->
+<section class="page">
+  <div class="eyebrow">01 · Overview <span class="tag green">CORE</span></div>
+  <h1>Focus made <span class="px">SIMPLE</span></h1>
+  <p class="lead">Pomodoro splits your work into short rounds with breaks in between. The app runs the clock so you can think about the work.</p>
+
+  <div class="cards">
+    <div class="card">
+      <svg viewBox="0 0 48 48" fill="none" stroke="#1a1a18" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><rect x="5" y="8" width="38" height="30" rx="3"/><path d="M14 42h20"/><rect x="5" y="14" width="13" height="18" rx="3" stroke="#ff5a1f"/></svg>
+      <b>A widget on the edge</b>
+      <span>Dock it to <b>any side</b> of the screen and drag it along that edge. It never opens a window.</span>
+    </div>
+    <div class="card">
+      <svg viewBox="0 0 48 48" fill="none" stroke="#1a1a18" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><rect x="4" y="9" width="40" height="6" rx="2"/><circle cx="37" cy="12" r="1.6" stroke="#ff5a1f" fill="#ff5a1f"/><rect x="10" y="22" width="28" height="18" rx="3"/><path d="M18 31h12"/></svg>
+      <b>Time in the menu bar</b>
+      <span>The clock icon shows the <b>time left</b> and opens settings and statistics.</span>
+    </div>
+    <div class="card">
+      <svg viewBox="0 0 48 48" fill="none" stroke="#1a1a18" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M6 42h36"/><rect x="9" y="26" width="7" height="16"/><rect x="21" y="14" width="7" height="28" stroke="#ff5a1f"/><rect x="33" y="21" width="7" height="21"/></svg>
+      <b>Your own numbers</b>
+      <span>It counts sessions and tells you how many ran <b>without interruption</b>.</span>
+    </div>
+  </div>
+
+  <h2>The idea in 30 seconds</h2>
+  <p>You work for one <b>session</b> (25 minutes by default), then take a short <b>break</b> (5 minutes). After four sessions you get a longer break (15 minutes). That is one cycle. You can change every length in the settings.</p>
+
+  <div class="trio">
+    <div><h4>You need</h4><ul><li>macOS 27 or later for the downloaded app</li><li>About two minutes to set it up</li></ul></div>
+    <div><h4>It lives in</h4><ul><li>A widget on a screen edge</li><li>The menu bar</li><li>No Dock icon</li></ul></div>
+    <div><h4>It keeps</h4><ul><li>Settings and statistics on your Mac only</li><li>Nothing on a server</li></ul></div>
+  </div>
+
+  <div class="note">
+    <p><b>You never need a window.</b> After launch you will see the widget at the left edge of the screen and a clock in the menu bar. That is the whole app.</p>
+  </div>
+</section>
+
+<!-- ============ 02 INSTALLING ============ -->
+<section class="page">
+  <div class="eyebrow">02 · Installing <span class="tag ink">ONCE</span></div>
+  <h1>Getting <span class="px">STARTED</span></h1>
+  <p class="lead">Five steps, and you only do them once per Mac.</p>
+
+  <ol class="steps">
+    <li><div><p><b>Download the app.</b> Open the <b>Releases</b> page of the project on GitHub and download <code>Pomodoro-v1.0-macOS.zip</code> from the latest release.</p></div></li>
+    <li><div><p><b>Unzip it.</b> Double-click the zip file. You get <code>Pomodoro.app</code>.</p></div></li>
+    <li><div><p><b>Move it to Applications.</b> Drag <code>Pomodoro.app</code> into the <b>Applications</b> folder. Starting at login works best from there.</p></div></li>
+    <li><div><p><b>Open it with a right-click.</b> Right-click <code>Pomodoro.app</code>, choose <b>Open</b>, then <b>Open</b> again in the dialog. macOS asks this once because the app is not from the App Store.</p></div></li>
+    <li><div><p><b>Allow notifications.</b> When macOS asks, click <b>Allow</b>. You will get a banner at the end of every session and break.</p></div></li>
+  </ol>
+
+  <div class="note amber">
+    <p><b>macOS says it cannot open the app?</b> Go to <b>System Settings › Privacy &amp; Security</b>, scroll down and click <b>Open Anyway</b> next to Pomodoro. This is normal for apps that are not signed with an Apple developer certificate.</p>
+  </div>
+
+  <h2>If macOS still blocks it</h2>
+  <p>Remove the download flag from the app. Open <b>Terminal</b> and paste:</p>
+  <pre data-label="TERMINAL">xattr -dr com.apple.quarantine /Applications/Pomodoro.app</pre>
+
+  <h2>What you should see</h2>
+  <p>No window opens. The <b>widget</b> appears at the left edge of the screen, and a <b>clock icon</b> appears in the menu bar. If both are there, you are done.</p>
+</section>
+
+<!-- ============ 03 THE WIDGET ============ -->
+<section class="page">
+  <div class="eyebrow">03 · The widget <span class="tag green">CORE</span></div>
+  <h1>Meet the <span class="px">WIDGET</span></h1>
+  <p class="lead">Everything you need during work is on one small glass panel.</p>
+
+  <figure>
+    <div class="diagram">
+      <svg viewBox="0 0 680 300" xmlns="http://www.w3.org/2000/svg">
+        <!-- widget -->
+        <rect x="30" y="14" width="236" height="272" rx="26" fill="#faf7f0" stroke="#1a1a18" stroke-width="2"/>
+        <circle cx="148" cy="88" r="56" fill="none" stroke="#d9d4c7" stroke-width="8"/>
+        <circle cx="148" cy="88" r="56" fill="none" stroke="#ff5a1f" stroke-width="10" stroke-linecap="round" stroke-dasharray="170 400" transform="rotate(-90 148 88)"/>
+        <text x="148" y="94" text-anchor="middle" font-size="28" font-weight="700" fill="#1a1a18">24:12</text>
+        <text x="148" y="110" text-anchor="middle" font-size="6" font-weight="700" letter-spacing="0.9" fill="#6b6a63">SESSION IN PROGRESS</text>
+        <circle cx="123" cy="160" r="4" fill="#1a1a18"/><circle cx="139" cy="160" r="4" fill="#1a1a18"/><circle cx="157" cy="160" r="4" fill="none" stroke="#1a1a18" stroke-width="1.6"/><circle cx="173" cy="160" r="4" fill="none" stroke="#1a1a18" stroke-width="1.6"/>
+        <rect x="62" y="190" width="78" height="30" rx="15" fill="none" stroke="#1a1a18" stroke-width="2"/>
+        <text x="101" y="209" text-anchor="middle" font-size="10" font-weight="700" letter-spacing="1" fill="#1a1a18">RESET</text>
+        <rect x="152" y="190" width="82" height="30" rx="15" fill="#1a1a18"/>
+        <text x="193" y="209" text-anchor="middle" font-size="10" font-weight="700" letter-spacing="1" fill="#faf7f0">PAUSE</text>
+        <text x="148" y="252" text-anchor="middle" font-size="9.5" fill="#6b6a63">Next: 5 min Break</text>
+
+        <!-- leaders -->
+        <g stroke="#1a1a18" stroke-width="1.6" fill="none">
+          <path d="M188 48 H330"/>
+          <path d="M201 108 H330"/>
+          <path d="M186 160 H330"/>
+          <path d="M240 205 H330"/>
+          <path d="M210 252 H330"/>
+        </g>
+        <g fill="#1a1a18">
+          <circle cx="188" cy="48" r="3"/><circle cx="201" cy="108" r="3"/><circle cx="186" cy="160" r="3"/><circle cx="240" cy="205" r="3"/><circle cx="210" cy="252" r="3"/>
+        </g>
+        <g font-size="13" font-weight="700" fill="#1a1a18">
+          <text x="344" y="53">Progress ring</text>
+          <text x="344" y="113">Status</text>
+          <text x="344" y="165">Session dots</text>
+          <text x="344" y="210">Buttons</text>
+          <text x="344" y="257">What comes next</text>
+        </g>
+        <g font-size="11" fill="#6b6a63">
+          <text x="344" y="69">Fills up as the session runs</text>
+          <text x="344" y="129">READY, PAUSED, SESSION IN PROGRESS, BREAK</text>
+          <text x="344" y="181">Filled dots = sessions done in this cycle</text>
+          <text x="344" y="226">RESET and START, PAUSE or RESUME</text>
+          <text x="344" y="273">The next phase and how long it lasts</text>
+        </g>
+        <rect x="560" y="14" width="96" height="24" rx="12" fill="#ff5a1f"/>
+        <text x="608" y="30" text-anchor="middle" font-size="9" font-weight="700" letter-spacing="1.5" fill="#fff">RED = WORK</text>
+      </svg>
+    </div>
+    <figcaption>Work sessions are tinted red. Breaks turn the whole widget teal, so you can tell at a glance which phase you are in.</figcaption>
+  </figure>
+
+  <h2>Controls</h2>
+  <table class="wrap">
+    <tr><th>Control</th><th>What it does</th></tr>
+    <tr><td>START</td><td>Starts the countdown from the ready state.</td></tr>
+    <tr><td>PAUSE / RESUME</td><td>Holds the clock and continues it. A pause during a work session counts as an interruption.</td></tr>
+    <tr><td>RESET</td><td>Stops the current phase and returns to <b>READY</b>.</td></tr>
+    <tr><td>Drag</td><td>Grab the background, ring or labels and slide the widget along its edge. The position is remembered for each edge.</td></tr>
+  </table>
+</section>
+
+<!-- ============ 04 WORK AND REST ============ -->
+<section class="page">
+  <div class="eyebrow">04 · Work and rest <span class="tag green">CORE</span></div>
+  <h1>Work and <span class="px">REST</span></h1>
+  <p class="lead">One cycle is four work sessions, each followed by a break, with a longer break at the end.</p>
+
+  <figure>
+    <div class="diagram">
+      <svg viewBox="0 0 680 200" xmlns="http://www.w3.org/2000/svg">
+        <defs><marker id="ah" markerWidth="8" markerHeight="8" refX="7" refY="4" orient="auto"><path d="M0 0 L8 4 L0 8 Z" fill="#1a1a18"/></marker></defs>
+        <rect x="14" y="62" width="100" height="56" rx="10" fill="#faf7f0" stroke="#1a1a18" stroke-width="2"/>
+        <text x="64" y="95" text-anchor="middle" font-size="13" font-weight="700">READY</text>
+
+        <path d="M114 90 H158" stroke="#1a1a18" stroke-width="2" marker-end="url(#ah)"/>
+
+        <rect x="162" y="52" width="150" height="76" rx="10" fill="#1a1a18"/>
+        <text x="237" y="82" text-anchor="middle" font-size="9" font-weight="700" letter-spacing="3" fill="#f0a030">FOCUS</text>
+        <text x="237" y="108" text-anchor="middle" font-size="18" font-weight="700" fill="#f4f1e8">25 min</text>
+
+        <path d="M312 90 H356" stroke="#1a1a18" stroke-width="2" marker-end="url(#ah)"/>
+
+        <rect x="360" y="62" width="110" height="56" rx="10" fill="#faf7f0" stroke="#1a1a18" stroke-width="2"/>
+        <text x="415" y="86" text-anchor="middle" font-size="13" font-weight="700">BREAK</text>
+        <text x="415" y="104" text-anchor="middle" font-size="11" fill="#6b6a63">5 min</text>
+
+        <rect x="520" y="62" width="150" height="56" rx="10" fill="#faf7f0" stroke="#1a1a18" stroke-width="2"/>
+        <text x="595" y="86" text-anchor="middle" font-size="13" font-weight="700">LONG BREAK</text>
+        <text x="595" y="104" text-anchor="middle" font-size="11" fill="#6b6a63">15 min</text>
+
+        <!-- after session 4 -->
+        <path d="M262 52 V22 H595 V62" stroke="#1a1a18" stroke-width="2" fill="none" marker-end="url(#ah)"/>
+        <text x="430" y="15" text-anchor="middle" font-size="11" fill="#6b6a63">after the 4th session</text>
+
+        <!-- return to ready -->
+        <path d="M415 118 V168 H64 V118" stroke="#1a1a18" stroke-width="2" fill="none" marker-end="url(#ah)"/>
+        <rect x="176" y="156" width="124" height="24" rx="12" fill="#ff5a1f"/>
+        <text x="238" y="172" text-anchor="middle" font-size="9" font-weight="700" letter-spacing="1.5" fill="#fff">WAIT FOR START</text>
+        <text x="595" y="140" text-anchor="middle" font-size="11" fill="#6b6a63">then READY again</text>
+      </svg>
+    </div>
+    <figcaption>A break begins by itself. A new work session always waits until you press START.</figcaption>
+  </figure>
+
+  <h2>What happens, step by step</h2>
+  <ol class="steps">
+    <li><div><p><b>Press START.</b> The ring fills and the status reads SESSION IN PROGRESS.</p></div></li>
+    <li><div><p><b>The session ends.</b> You hear a soft chime, get a <b>Session complete</b> banner, and the break starts on its own. The widget turns teal.</p></div></li>
+    <li><div><p><b>The break ends.</b> A second chime plays with a <b>Break is over</b> banner. The widget goes back to <b>READY</b> and waits for you.</p></div></li>
+    <li><div><p><b>After four sessions</b> the break is the long one. After it, the dots reset and a new cycle begins.</p></div></li>
+  </ol>
+
+  <div class="note ink">
+    <p><b>Long break turned off?</b> Set it to 0 in the settings. After the fourth session you get a normal break, and the next START begins a new cycle.</p>
+  </div>
+</section>
+
+<!-- ============ 05 COMPACT MODE ============ -->
+<section class="page">
+  <div class="eyebrow">05 · Compact mode <span class="tag amber">EXTENDED</span></div>
+  <h1>Out of the <span class="px">WAY</span></h1>
+  <p class="lead">When you are not using the widget, it shrinks to a small ring with the time. Move the cursor over it and it opens again.</p>
+
+  <figure>
+    <div class="diagram">
+      <svg viewBox="0 0 680 210" xmlns="http://www.w3.org/2000/svg">
+        <defs><marker id="ah2" markerWidth="8" markerHeight="8" refX="7" refY="4" orient="auto"><path d="M0 0 L8 4 L0 8 Z" fill="#1a1a18"/></marker></defs>
+        <!-- full -->
+        <rect x="14" y="14" width="128" height="182" rx="16" fill="#faf7f0" stroke="#1a1a18" stroke-width="2"/>
+        <circle cx="78" cy="78" r="34" fill="none" stroke="#d9d4c7" stroke-width="6"/>
+        <circle cx="78" cy="78" r="34" fill="none" stroke="#ff5a1f" stroke-width="7" stroke-linecap="round" stroke-dasharray="110 300" transform="rotate(-90 78 78)"/>
+        <text x="78" y="84" text-anchor="middle" font-size="15" font-weight="700">24:12</text>
+        <rect x="30" y="128" width="46" height="20" rx="10" fill="none" stroke="#1a1a18" stroke-width="1.6"/>
+        <rect x="82" y="128" width="46" height="20" rx="10" fill="#1a1a18"/>
+        <text x="78" y="178" text-anchor="middle" font-size="9" fill="#6b6a63">Full widget</text>
+
+        <!-- arrows -->
+        <path d="M148 80 H268" stroke="#1a1a18" stroke-width="2" fill="none" marker-end="url(#ah2)"/>
+        <text x="208" y="70" text-anchor="middle" font-size="10.5" fill="#6b6a63">3 s without cursor</text>
+        <path d="M268 126 H148" stroke="#1a1a18" stroke-width="2" fill="none" marker-end="url(#ah2)"/>
+        <text x="208" y="146" text-anchor="middle" font-size="10.5" fill="#6b6a63">cursor over it</text>
+
+        <!-- compact -->
+        <rect x="274" y="56" width="100" height="100" rx="18" fill="#faf7f0" stroke="#1a1a18" stroke-width="2"/>
+        <circle cx="324" cy="102" r="30" fill="none" stroke="#d9d4c7" stroke-width="6"/>
+        <circle cx="324" cy="102" r="30" fill="none" stroke="#ff5a1f" stroke-width="7" stroke-linecap="round" stroke-dasharray="96 300" transform="rotate(-90 324 102)"/>
+        <text x="324" y="107" text-anchor="middle" font-size="13" font-weight="700">24:12</text>
+        <text x="324" y="182" text-anchor="middle" font-size="9" fill="#6b6a63">Compact ring</text>
+
+        <!-- paused -->
+        <rect x="470" y="14" width="128" height="182" rx="16" fill="#faf7f0" stroke="#1a1a18" stroke-width="2"/>
+        <circle cx="534" cy="78" r="34" fill="none" stroke="#d9d4c7" stroke-width="6"/>
+        <text x="534" y="84" text-anchor="middle" font-size="15" font-weight="700">11:48</text>
+        <text x="534" y="108" text-anchor="middle" font-size="6.5" font-weight="700" letter-spacing="1.2" fill="#6b6a63">PAUSED</text>
+        <rect x="486" y="128" width="46" height="20" rx="10" fill="none" stroke="#1a1a18" stroke-width="1.6"/>
+        <rect x="538" y="128" width="46" height="20" rx="10" fill="#1a1a18"/>
+        <text x="534" y="178" text-anchor="middle" font-size="9" fill="#6b6a63">Paused: stays open</text>
+      </svg>
+    </div>
+    <figcaption>While the timer runs, or is ready to start, the widget shrinks by itself. A paused widget stays open, as a reminder to resume.</figcaption>
+  </figure>
+
+  <h2>When it collapses</h2>
+  <table class="wrap">
+    <tr><th>State</th><th>Behaviour</th></tr>
+    <tr><td>Running</td><td>Collapses after 3 seconds without the cursor on it.</td></tr>
+    <tr><td>Ready to start</td><td>Collapses after 3 seconds without the cursor on it.</td></tr>
+    <tr><td>Paused</td><td>Stays open. This is a nudge to press RESUME.</td></tr>
+    <tr><td>After launch</td><td>Starts collapsed right away. It opens when you point at it.</td></tr>
+  </table>
+
+  <div class="note ink">
+    <p><b>Prefer it always open?</b> Turn off <b>Compact mode</b> in the settings. To keep only the collapsing but skip the collapsed start, turn off <b>Start collapsed after launch</b>.</p>
+  </div>
+</section>
+
+<!-- ============ 06 SETTINGS ============ -->
+<section class="page">
+  <div class="eyebrow">06 · Settings <span class="tag green">CORE</span></div>
+  <h1>Make it <span class="px">YOURS</span></h1>
+  <p class="lead">Click the <b>clock icon</b> in the menu bar. A small panel opens with every option.</p>
+
+  <table class="wrap">
+    <tr><th>Setting</th><th>What it does</th></tr>
+    <tr><td>Session</td><td>Length of a work session, 1 to 180 minutes. Default 25.</td></tr>
+    <tr><td>Break</td><td>Length of a normal break, 1 to 60 minutes. Default 5.</td></tr>
+    <tr><td>Long break</td><td>Length of the long break after every 4 sessions, 0 to 60 minutes in steps of 5. Default 15. Set it to 0 to turn it off.</td></tr>
+    <tr><td>Size reduction</td><td>Shrinks the widget by 0 to 50 %. Default 25 %.</td></tr>
+    <tr><td>Screen edge</td><td>Left, right, top or bottom edge.</td></tr>
+    <tr><td>Show time in menu bar</td><td>Prints the time left next to the clock icon while a phase runs.</td></tr>
+    <tr><td>Compact mode (auto-collapse)</td><td>Lets the widget shrink when you are not using it.</td></tr>
+    <tr><td>Start collapsed after launch</td><td>The widget starts as a small ring. Works only with Compact mode on.</td></tr>
+    <tr><td>Center widget on edge</td><td>Moves the widget back to the middle of the current edge.</td></tr>
+    <tr><td>Launch at login</td><td>Opens Pomodoro every time you log in to your Mac.</td></tr>
+    <tr><td>Quit Pomodoro</td><td>Closes the app. You can also press <kbd>⌘</kbd><kbd>Q</kbd> while the panel is open.</td></tr>
+  </table>
+
+  <div class="note">
+    <p><b>Changes apply at once.</b> In the ready state the new length shows immediately. During a session or break the new value starts with the next phase.</p>
+  </div>
+</section>
+
+<!-- ============ 07 STATISTICS ============ -->
+<section class="page">
+  <div class="eyebrow">07 · Statistics <span class="tag green">CORE</span></div>
+  <h1>Know your <span class="px">NUMBERS</span></h1>
+  <p class="lead">The panel under the settings counts your work sessions. Breaks are not counted.</p>
+
+  <table class="wrap">
+    <tr><th>Number</th><th>What it means</th></tr>
+    <tr><td>Total sessions</td><td>How many work sessions were recorded.</td></tr>
+    <tr><td>Without interruption</td><td>The share of sessions you finished without pausing or resetting.</td></tr>
+    <tr><td>Average length</td><td>The average time you actually worked in a session.</td></tr>
+  </table>
+
+  <h2>What counts as an interruption</h2>
+  <ul>
+    <li>A <b>pause</b> during a work session marks that session as interrupted, even if you resume.</li>
+    <li>A <b>reset</b> before the end records the session as interrupted.</li>
+    <li>Interrupted sessions shorter than <b>10 seconds</b> are ignored, so an accidental START does not spoil your numbers.</li>
+    <li>Pausing during a break does <b>not</b> count.</li>
+  </ul>
+
+  <h2>Where the data lives</h2>
+  <p>Statistics are stored only on your Mac, in this file:</p>
+  <pre data-label="FILE">~/Library/Application Support/PomodoroWidget/sessions.json</pre>
+
+  <div class="note amber">
+    <p><b>Reset statistics cannot be undone.</b> The button asks you to click twice. After the second click the whole history is gone.</p>
+  </div>
+</section>
+
+<!-- ============ 08 TROUBLESHOOTING ============ -->
+<section class="page">
+  <div class="eyebrow">08 · Troubleshooting <span class="tag ink">PRINT ME</span></div>
+  <h1>Rules and <span class="px">ANSWERS</span></h1>
+  <p class="lead">Find your problem in the left column. The fix is on the right.</p>
+
+  <table class="wrap">
+    <tr><th>Problem</th><th>What to do</th></tr>
+    <tr><td>macOS will not open the app</td><td>Right-click the app and choose <b>Open</b>. Or use <b>System Settings › Privacy &amp; Security › Open Anyway</b>.</td></tr>
+    <tr><td>I cannot see the widget</td><td>It may be collapsed to a small ring. Check the screen edge you chose, then use <b>Screen edge</b> and <b>Center widget on edge</b> in the settings.</td></tr>
+    <tr><td>There is no clock in the menu bar</td><td>A full menu bar can hide extra icons. Close a few menu bar apps, then check again.</td></tr>
+    <tr><td>No banner at the end of a session</td><td>Open <b>System Settings › Notifications › Pomodoro</b> and allow notifications.</td></tr>
+    <tr><td>No sound at the end of a session</td><td>Check the Mac volume and the selected output device. The sound comes from the app, not from the system notification sound.</td></tr>
+    <tr><td>The notification has a blank icon</td><td>Quit Pomodoro, keep one copy only in Applications, and run <code>killall NotificationCenter usernoted Dock Finder</code> in Terminal. If that is not enough, restart the Mac.</td></tr>
+    <tr><td>Launch at login does nothing</td><td>Keep the app in the <b>Applications</b> folder. Turn the option off and on again.</td></tr>
+    <tr><td>The timer is gone after I quit</td><td>Quitting stops the timer. It is not resumed when you open the app again.</td></tr>
+    <tr><td>Statistics look too low</td><td>A single pause marks that session as interrupted. See the Statistics section.</td></tr>
+  </table>
+</section>
+
+<!-- ============ CHEAT SHEET ============ -->
+<section class="page sheet">
+  <div class="eyebrow">Cheat sheet <span class="tag ink">PRINT ME</span></div>
+  <h1>All on one <span class="px">PAGE</span></h1>
+
+  <div class="cols">
+    <div>
+      <h2>Widget</h2>
+      <table>
+        <tr><th>Control</th><th>Action</th></tr>
+        <tr><td>START</td><td>Begin a session</td></tr>
+        <tr><td>PAUSE / RESUME</td><td>Hold or continue</td></tr>
+        <tr><td>RESET</td><td>Back to READY</td></tr>
+        <tr><td>Drag</td><td>Slide along the edge</td></tr>
+        <tr><td>Hover</td><td>Open a compact widget</td></tr>
+      </table>
+
+      <h2>One cycle</h2>
+      <table>
+        <tr><th>Step</th><th>What happens</th></tr>
+        <tr><td>1–4</td><td>Session, then break</td></tr>
+        <tr><td>After 4</td><td>Long break</td></tr>
+        <tr><td>Break over</td><td>READY, waits for START</td></tr>
+      </table>
+
+      <h2>Defaults</h2>
+      <table>
+        <tr><th>Setting</th><th>Value</th></tr>
+        <tr><td>Session</td><td>25 min</td></tr>
+        <tr><td>Break</td><td>5 min</td></tr>
+        <tr><td>Long break</td><td>15 min</td></tr>
+        <tr><td>Size reduction</td><td>25 %</td></tr>
+      </table>
+    </div>
+
+    <div>
+      <h2>Compact mode</h2>
+      <table>
+        <tr><th>State</th><th>Widget</th></tr>
+        <tr><td>Running</td><td>Collapses after 3 s</td></tr>
+        <tr><td>READY</td><td>Collapses after 3 s</td></tr>
+        <tr><td>Paused</td><td>Stays open</td></tr>
+        <tr><td>After launch</td><td>Starts collapsed</td></tr>
+      </table>
+
+      <h2>Interruptions</h2>
+      <table>
+        <tr><th>Action</th><th>Counted</th></tr>
+        <tr><td>Pause in a session</td><td>Interrupted</td></tr>
+        <tr><td>Reset in a session</td><td>Interrupted</td></tr>
+        <tr><td>Under 10 s</td><td>Ignored</td></tr>
+        <tr><td>Pause in a break</td><td>Not counted</td></tr>
+      </table>
+
+      <h2>Menu bar</h2>
+      <table>
+        <tr><th>Item</th><th>Where</th></tr>
+        <tr><td>Settings</td><td>Click the clock icon</td></tr>
+        <tr><td>Statistics</td><td>Under the settings</td></tr>
+        <tr><td>Quit</td><td><kbd>⌘</kbd><kbd>Q</kbd> in the panel</td></tr>
+      </table>
+    </div>
+  </div>
+
+  <p class="closing">Pomodoro Timer · version 1.0 · macOS · github.com/gen-wit/macos-pomodoro</p>
+</section>
+
+<script>
+// ---- pixel font: 5x7 cells, rows as 5-bit strings ----
+const G = {
+A:"01110 10001 10001 11111 10001 10001 10001",B:"11110 10001 10001 11110 10001 10001 11110",
+C:"01110 10001 10000 10000 10000 10001 01110",D:"11110 10001 10001 10001 10001 10001 11110",
+E:"11111 10000 10000 11110 10000 10000 11111",F:"11111 10000 10000 11110 10000 10000 10000",
+G:"01110 10001 10000 10111 10001 10001 01111",H:"10001 10001 10001 11111 10001 10001 10001",
+I:"01110 00100 00100 00100 00100 00100 01110",J:"00111 00010 00010 00010 00010 10010 01100",
+K:"10001 10010 10100 11000 10100 10010 10001",L:"10000 10000 10000 10000 10000 10000 11111",
+M:"10001 11011 10101 10101 10001 10001 10001",N:"10001 11001 10101 10011 10001 10001 10001",
+O:"01110 10001 10001 10001 10001 10001 01110",P:"11110 10001 10001 11110 10000 10000 10000",
+Q:"01110 10001 10001 10001 10101 10010 01101",R:"11110 10001 10001 11110 10100 10010 10001",
+S:"01111 10000 10000 01110 00001 00001 11110",T:"11111 00100 00100 00100 00100 00100 00100",
+U:"10001 10001 10001 10001 10001 10001 01110",V:"10001 10001 10001 10001 10001 01010 00100",
+W:"10001 10001 10001 10101 10101 11011 10001",X:"10001 10001 01010 00100 01010 10001 10001",
+Y:"10001 10001 01010 00100 00100 00100 00100",Z:"11111 00001 00010 00100 01000 10000 11111",
+"0":"01110 10001 10011 10101 11001 10001 01110","1":"00100 01100 00100 00100 00100 00100 01110",
+"2":"01110 10001 00001 00010 00100 01000 11111","3":"11110 00001 00001 01110 00001 00001 11110",
+"4":"00010 00110 01010 10010 11111 00010 00010","5":"11111 10000 11110 00001 00001 10001 01110",
+"6":"00110 01000 10000 11110 10001 10001 01110","7":"11111 00001 00010 00100 01000 01000 01000",
+"8":"01110 10001 10001 01110 10001 10001 01110","9":"01110 10001 10001 01111 00001 00010 01100",
+"-":"00000 00000 00000 11111 00000 00000 00000",".":"00000 00000 00000 00000 00000 00000 00100",
+"!":"00100 00100 00100 00100 00100 00000 00100","?":"01110 10001 00001 00010 00100 00000 00100",
+"&":"01100 10010 10100 01000 10101 10010 01101"
+};
+document.querySelectorAll(".px").forEach(el => {
+  const text = el.textContent.trim().toUpperCase();
+  const h = parseFloat(el.dataset.h || "0.8");
+  let x = 0, rects = "";
+  for (const ch of text) {
+    if (ch === " ") { x += 3; continue; }
+    const g = G[ch]; if (!g) continue;
+    g.split(" ").forEach((row, r) => [...row].forEach((bit, c) => {
+      if (bit === "1") rects += `<rect x="${x + c + 0.03}" y="${r + 0.03}" width="0.94" height="0.94"/>`;
+    }));
+    x += 6;
+  }
+  const w = Math.max(x - 1, 1);
+  el.innerHTML = `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 ${w} 7" style="height:${h}em;width:${(h * w / 7)}em" fill="#ff5a1f" aria-label="${text}">${rects}</svg>`;
+});
+</script>
+</body>
+</html>
