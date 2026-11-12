@@ -14,16 +14,13 @@ enum SoundPlayer {
     private static var player: AVAudioPlayer?
     private static var fallback: NSSound?
 
-    /// Odtwarza dźwięk i zwraca krótki opis wyniku (do diagnozy w ustawieniach).
-    @MainActor @discardableResult
-    static func play(_ sound: AppSound) -> String {
-        // Najpierw MP3 (własne dźwięki), a gdy go nie ma, wbudowany WAV.
-        guard let url = ["mp3", "wav"].lazy
-            .compactMap({ Bundle.main.url(forResource: sound.rawValue, withExtension: $0) })
-            .first else {
+    /// Odtwarza dźwięk dołączony do aplikacji (MP3 w folderze `Sounds`).
+    @MainActor
+    static func play(_ sound: AppSound) {
+        guard let url = Bundle.main.url(forResource: sound.rawValue, withExtension: "mp3") else {
             log.error("Sound file \(sound.rawValue, privacy: .public) not found in app bundle")
             NSSound.beep()
-            return "File \(sound.rawValue) not found in the app bundle"
+            return
         }
 
         do {
@@ -32,7 +29,7 @@ enum SoundPlayer {
             player = p
             if p.play() {
                 log.info("Playing \(url.lastPathComponent, privacy: .public)")
-                return "Playing \(url.lastPathComponent) (\(String(format: "%.1f", p.duration)) s)"
+                return
             }
             log.error("AVAudioPlayer.play() returned false")
         } catch {
@@ -42,10 +39,9 @@ enum SoundPlayer {
         // Rezerwa: NSSound.
         if let ns = NSSound(contentsOf: url, byReference: false), ns.play() {
             fallback = ns
-            return "Playing \(url.lastPathComponent) via NSSound"
+            return
         }
         NSSound.beep()
-        return "Could not play \(url.lastPathComponent)"
     }
 }
 

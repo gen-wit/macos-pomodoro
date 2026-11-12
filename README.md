@@ -104,7 +104,7 @@ macos-pomodoro/
     ├── ScreenEdge.swift               # screen edges and widget shape
     ├── SettingsView.swift             # settings and statistics popover in the menu bar
     ├── StatsStore.swift               # saving and computing statistics (JSON)
-    ├── Sounds/                        # bundled end-of-session and end-of-break sounds (WAV)
+    ├── Sounds/                        # bundled end-of-session and end-of-break sounds (MP3)
     ├── NotificationService.swift      # system notifications and sound playback
     ├── MenuBarImage.swift             # fixed-width icon and time in the menu bar
     └── LaunchAtLogin.swift            # launch at login (SMAppService)
