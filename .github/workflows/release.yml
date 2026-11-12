@@ -1,0 +1,58 @@
+name: Build and attach app to release
+
+on:
+  # Po opublikowaniu nowego release'u na GitHubie.
+  release:
+    types: [published]
+  # Ręcznie (Actions -> Run workflow), np. dla istniejącego release'u v1.0.
+  workflow_dispatch:
+    inputs:
+      tag:
+        description: "Tag release'u, do którego dołączyć aplikację (np. v1.0)"
+        required: true
+
+permissions:
+  contents: write   # potrzebne do dołączenia pliku do release'u
+
+jobs:
+  build:
+    # Runner z Xcode 27 (projekt wymaga macOS 27 SDK).
+    runs-on: xcode-27
+    timeout-minutes: 30
+    env:
+      TAG: ${{ github.event.release.tag_name || inputs.tag }}
+      GH_TOKEN: ${{ github.token }}
+
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: ${{ github.event.release.tag_name || inputs.tag }}
+
+      - name: Show Xcode version
+        run: xcodebuild -version
+
+      - name: Build (Release, ad-hoc signed)
+        run: |
+          xcodebuild \
+            -project Pomodoro-app.xcodeproj \
+            -scheme Pomodoro \
+            -configuration Release \
+            -destination 'generic/platform=macOS' \
+            -derivedDataPath build \
+            CODE_SIGN_STYLE=Manual \
+            CODE_SIGN_IDENTITY="-" \
+            DEVELOPMENT_TEAM="" \
+            CODE_SIGNING_REQUIRED=YES \
+            CODE_SIGNING_ALLOWED=YES \
+            build
+
+      - name: Package .app
+        run: |
+          APP=$(find build/Build/Products/Release -maxdepth 1 -name '*.app' | head -n 1)
+          echo "Built: $APP"
+          codesign --verify --deep --strict "$APP" || true
+          ditto -c -k --sequesterRsrc --keepParent "$APP" "Pomodoro-${TAG}-macOS.zip"
+          ls -lh Pomodoro-*.zip
+
+      - name: Upload to release
+        run: gh release upload "$TAG" "Pomodoro-${TAG}-macOS.zip" --clobber --repo "$GITHUB_REPOSITORY"
